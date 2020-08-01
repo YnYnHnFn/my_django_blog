@@ -31,6 +31,8 @@ class Post(models.Model):
 
     # これこそが先程お話ししたブログを公開するメソッドそのものです。
     def publish(self):
+
+        # 公開日に今をいれるのね。
         self.published_date = timezone.now()
         self.save()
 
