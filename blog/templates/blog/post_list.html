@@ -1,18 +1,44 @@
+<!--
+views.py の中でこのように呼ばれる。
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+{％ ％}という表記はDjangoが用意しているテンプレートタグを使っているということを意味します。
+-->
+
 {% extends 'blog/base.html' %}
 
+<!--↑これを拡張して、↓これを埋め込むぞ、と。
+-->
 {% block content %}
+
+    <!--{％ for ％} と {％ endfor ％} の間に書いたものはリスト中の
+        各オブジェクトの分(この場合、postsのリストの分ね)だけ繰り返されます。
+    -->
     {% for post in posts %}
+
         <div class="post">
+
             <div class="date">
                 {{ post.published_date }}
             </div>
 
-            <!--
-            <h2><a href="">{{ post.title }}</a></h2>
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <!--{％ url 'post_detail' pk=post.pk ％}：
+                リンク先の URLを作るために使われる Djangoタグ
+                URLは「urls.py に name='post_detail' と書かれた path」の意味。
+                pk として 引数 postの要素 pk を 使う
             -->
-            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
 
             <p>{{ post.text|linebreaksbr }}</p>
+            <!-- |linebreaksbr はpostのテキスト中の改行を段落に変換するフィルタに通すという意味です。
+            -->
+
+            <hr>
+
         </div>
     {% endfor %}
+{% endblock %}
+
+{% block buchi %}
+<div >ぶち</div>
 {% endblock %}

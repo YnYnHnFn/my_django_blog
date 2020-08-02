@@ -1,79 +1,68 @@
 {% load static %}
 <html>
     <head>
-        <title>Django Girls blog</title>
+        <title>Buchi BloG Beta</title>
 
+        <!-- Bootstrap -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 
+        <!-- この行ではGoogle Fonts から Lobster と呼ばれるフォントを読み込んでいます。 
+        <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+        -->
+        <link href="https://fonts.googleapis.com/css?family=Artifika" rel="stylesheet">
+        
+
+        <!-- 自作のcssは Djangoタグによってcssファイルを指定 -->
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 
     </head>
-
-    <!--   
-    <body>
-        <div>
-            <h1><a href="/">Django Girls Blog</a></h1>
-        </div>
-
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                    {% for post in posts %}
-                        <div class="post">
-
-                            <div class="date">
-                                <p>published: {{ post.published_date }}</p>
-                            </div>
-
-                            <h2><a href="">{{ post.title }}</a></h2>
-
-                            <p>{{ post.text|linebreaksbr }}</p>
-
-                            |linebreaksbr はpostのテキスト中の改行を段落に
-                            変換するフィルタに通すという意味です。 
-
-
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        {% for post in posts %}
-            <div>
-                <p>published: {{ post.published_date }}</p>
-
-                <h2><a href="">{{ post.title }}</a></h2>
-
-                <p>{{ post.text|linebreaksbr }}</p>
-
-            </div>
-        {% endfor %}
-
-    </body>
-    -->
-
     <body>
         <div class="page-header">
+        <!-- 共通ヘッダ -->
 
             {% if user.is_authenticated %}
-                <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            <!--管理者でログインしているユーザーのみにリンクを表示します。-->
+
+                <!--新規投稿の「＋」ボタン-->
+                <a href="{% url 'post_new' %}" class="top-menu">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+                <!--リンク先は 「urls.py に name='post_new' と書かれた path」の意味。これは引数なしですね。
+                    "glyphicon glyphicon-plus"クラスは、Bootstrapテーマによって提供され、プラス記号を表示します。
+                -->
+
             {% endif %}
 
-            <h1><a href="/">Django Girls Blog</a></h1>
+            <!-- ブログタイトル。ルートへのリンクを入れておく -->
+            <h1><a href="/">Buchi BloG Beta</a></h1>
+
         </div>
 
+        <!--ここから下は 各ページで書き換える-->
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
+
                 {% block content %}
+                <!--拡張する側に block content ～ endblock で囲われた
+                    エリア作っとけよ、っていう話。
+                -->
                 {% endblock %}
+
+                {% block buchi %}
+                <!--拡張する側に block buchi ～ endblock で囲われた
+                    エリア作っとけよ、っていう話。無ければ何も出力されないだけ。。
+                -->
+                {% endblock %}
+
                 </div>
             </div>
         </div>
-    </body>
 
+    </body>
 </html>
