@@ -1,0 +1,314 @@
+
+
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+
+import モジュール     ※モジュールをインポートしているから記述は「モジュール.関数等」
+
+from モジュール import 関数等     ※関数をインポートしているから記述は「関数等」
+
+
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+
+とりあえず、プロジェクトのディレクトリつくりなさい。
+
+
+# 仮想環境作る。
+
+モジュール呼ぶ場合：
+python -m venv djangoenv
+
+exe動かす場合：
+virtualenv djangoenv
+
+
+# 仮想環境動かす。そこの環境に入る。
+
+cd Documents\mydjango
+
+djangoenv\Scripts\activate
+
+
+# djangoをインストール（その仮想環境でね）
+
+　まず、pipの最新化
+python -m pip install --upgrade pip
+
+　requirements.txtに書いてあるものをインストール
+python -m pip install -r requirements.txt
+
+pip install -r requirements.txt
+と書いてもいいよ。
+
+--------- requirements.txt の中身 --------- 
+Django~=2.2.4
+--------- --------- --------- 
+
+
+# djangoがインストールできたら、プロジェクトを作る。
+
+django-admin.exe startproject buchi_site .
+
+　buchi_site がプロジェクト名。
+　. カレント指定、大事。
+
+　で、ワンセットできる。
+
+(アプリレベルでなく)プロジェクトレベルで存在するファイル
+
+djangogirls
+├── manage.py              <<< プロジェクトレベル
+├── mysite                 <<< プロジェクトレベル
+│   ├── __init__.py       <<< プロジェクトレベル
+│   ├── settings.py       <<< プロジェクトレベル
+│   ├── urls.py           <<< プロジェクトレベル これはアプリレベルでもあるよ！
+│   └── wsgi.py           <<< プロジェクトレベル
+├── myvenv
+│   └── ...
+└── requirements.txt
+
+
+# settingでいじるとこメモ
+
+	--------- settings.py --------- 
+	...
+	TIME_ZONE = 'Asia/Tokyo'
+	...
+	LANGUAGE_CODE = 'ja'
+	...
+	STATIC_URL = '/static/'
+＋	STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+	...
+	# SECURITY WARNING: don't run with debug turned on in production!
+	DEBUG = True
+
+	ALLOWED_HOSTS = []
+↓
+DEBUG が True に設定されていて、ALLOWED_HOSTS が空のリストの時は、
+自動的に ['localhost', '127.0.0.1', '[::1]'] という3つのホストに対してチェックが行われます。 
+デプロイして使う PythonAnywhere のホストネームが含まれていませんから、次のように設定を変更します。
+↓
+	ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+
+	...
+	DATABASES = {
+	    'default': {
+	        'ENGINE': 'django.db.backends.sqlite3',
+	        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	    }
+	}
+
+	...
+アプリケーションをプロジェクトに含めるには、構成クラスへの参照を
+INSTALLED_APPS 設定に追加する必要があります。
+BlogConfig クラスは、 アプリ名.apps.py にあるので、
+ドットつなぎのパスは 'アプリ名.apps.BlogConfig' となります。 m
+	INSTALLED_APPS = [
+	    'django.contrib.admin',
+	    'django.contrib.auth',
+	    'django.contrib.contenttypes',
+	    'django.contrib.sessions',
+	    'django.contrib.messages',
+	    'django.contrib.staticfiles',
+	    'アプリ名.apps.BlogConfig',              <<<<<< 自分のアプリを追加 クラスを書くのね。
+	]
+
+	--------- --------- --------- 
+
+# とりあえず、ＤＢを作る。管理系のオブジェクトだけできる。
+python manage.py migrate
+
+　db.sqlite3 ファイルができるな。
+
+
+# 中見ないけど、Webサーバーを起動できる。
+(djangoenv) ~/djangogirls$ python manage.py runserver
+
+# ダメなときはポート指定してみる
+(djangoenv) ~/djangogirls$ python manage.py runserver 0:8000
+
+http://127.0.0.1:8000/ をブラウザで開いてみよう。
+
+
+
+さて、
+# プロジェクトの下にアプリを作る。
+python manage.py startapp アプリ名
+
+djangogirls                   
+├── blog                   <<< アプリの部分
+│   ├── admin.py          <<< アプリの部分
+│   ├── apps.py           <<< アプリの部分
+│   ├── __init__.py       <<< アプリの部分
+│   ├── migrations        <<< アプリの部分
+│   │   └── __init__.py  <<< アプリの部分
+│   ├── models.py         <<< アプリの部分
+│   ├── tests.py          <<< アプリの部分
+│   └── views.py          <<< アプリの部分
+│   ├── templates         <<< アプリの部分 後から自分で追加する
+│   │   └── ・・         <<< アプリの部分 後から自分で追加する
+│   ├── static            <<< アプリの部分 後から自分で追加する
+│   │   └── ccs          <<< アプリの部分 後から自分で追加する
+│
+├── db.sqlite3             
+├── manage.py              
+├── mysite                 
+│   ├── __init__.py       
+│   ├── settings.py       
+│   ├── urls.py           
+│   └── wsgi.py           
+├── myvenv                 
+│   └── ...               
+└── requirements.txt       
+
+
+# 新しくモデル作ったらDBに登録する。テーブルの位置づけだからね。
+python manage.py makemigrations アプリ名
+
+　でmigration下にテキトーな名前のファイルができる。
+
+python manage.py migrate アプリ名
+
+　で db.sqlite3 に反映。
+
+
+
+# スーパーユーザーを作る？
+python manage.py createsuperuser
+
+
+
+
+
+
+
+---------- ---------- ---------- ---------- ---------- 
+
+
+git config --global user.name "YnYnHnFn"
+git config --global user.email buchi4126@yahoo.co.jp
+
+
+
+git commit -m "django app, first commit"
+
+git remote add origin https://github.com/YnYnHnFn/my_django_blog.git
+
+git push -u origin master
+
+
+
+
+### Pythonanyware で django アプリの登録するときのおまじない （一括でやってくれるツール）
+### PythonAnywhereのコンソールで
+
+pip3.6 install --user pythonanywhere
+
+
+
+pa_autoconfigure_django.py --python=3.7 https://github.com/YnYnHnFn/my_django_blog.git
+
+pa_autoconfigure_django.py --nuke --python=3.7 https://github.com/YnYnHnFn/my_django_blog.git
+
+
+　実際やってること
+　・GitHubからコードをダウンロードする
+　・ちょうどあなたのPC上でやったように、PythonAnywhere上に仮想環境 を作成する
+　・一部のデプロイメント設定で設定ファイルを更新する
+　・manage.py migrateコマンドを使ってPythonAnywhere上のデータベースをセットアップする
+　・静的ファイルの設定（これについては後で学習します）
+　・APIを通じてPythonAnywhereがあなたのWebアプリケーションを提供するように設定する
+
+
+# PythonAnywhereのコンソールで仮想環境に入る（ようなもの）
+※ workon :仮想環境の起動 [myenv/bin/activateコマンドと同じようなもの]
+※ collectstatic :静的ファイルの更新
+
+$ workon ynynhnfn.pythonanywhere.com
+
+(ynynhnfn.pythonanywhere.com)$ python manage.py collectstatic
+
+
+
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+
+# Djangoのクエリセット 操作
+
+　djangoシェル起動 ※ pythonanywareでやるなら workonね。
+　
+python manage.py shell  
+	--------- --------- --------- --------- 
+	from blog.models import Post
+	from django.contrib.auth.models import User
+	from django.utils import timezone
+
+	# ポストのデータを全部表示させる
+	Post.objects.all()
+
+	# ユーザーのデータを全部表示させる
+	User.objects.all()
+
+	Post.objects.create(author=me, title='Sample title', text='Test')
+	# INSERT(SQL)の動き。
+
+	Post.objects.filter(published_date__lte=timezone.now())
+	# filter 条件絞り込み
+
+	--------- --------- --------- --------- 
+
+Djangoのクエリセットについて、もっと知りたければこちらも読んでみてくださいね。
+https://docs.djangoproject.com/ja/2.2/ref/models/querysets/
+
+
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+
+
+---------- ---------- ---------- ---------- ---------- 
+
+http://ynynhnfn.pythonanywhere.com/
+
+
+
+
+
+
+---------- ---------- ---------- ---------- ---------- 
+---------- ---------- ---------- ---------- ---------- 
+以降は くり返しのデプロイで使うコマンド
+---------- ---------- ---------- ---------- ---------- 
+---------- ---------- ---------- ---------- ---------- 
+
+cd Documents\mydjango
+
+djangoenv\Scripts\activate
+
+python manage.py runserver
+
+http://127.0.0.1:8000/
+
+---------- ---------- ---------- ---------- ---------- 
+git
+---------- ---------- ---------- ---------- ---------- 
+
+$ git status
+
+$ git add --all .
+
+$ git status
+
+$ git commit -m "change hogehoge"
+
+$ git push
+
+---------- ---------- ---------- ---------- ---------- 
+PythonAnywhere Bash コンソール (command-line)
+---------- ---------- ---------- ---------- ---------- 
+
+$ cd ~/ynynhnfn.pythonanywhere.com
+
+$ git pull
+
+
+
+
+
