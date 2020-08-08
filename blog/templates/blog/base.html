@@ -12,10 +12,11 @@
         <link href="https://fonts.googleapis.com/css?family=Artifika" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
-        -->
         <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
-        
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        -->
+        <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+
 
         <!-- 自作のcssは Djangoタグによってcssファイルを指定 -->
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
@@ -24,6 +25,10 @@
     <body>
         <div class="page-header">
         <!-- 共通ヘッダ -->
+
+            <!-- ブログタイトル。ルートへのリンクを入れておく -->
+            <h1><a href="/">django BloG</a></h1>
+
 
             {% if user.is_authenticated %}
             <!--管理者でログインしているユーザーのみにリンクを表示します。-->
@@ -37,9 +42,6 @@
                 -->
 
             {% endif %}
-
-            <!-- ブログタイトル。ルートへのリンクを入れておく -->
-            <h1><a href="/">Buchi BloG Beta</a></h1>
 
         </div>
 
