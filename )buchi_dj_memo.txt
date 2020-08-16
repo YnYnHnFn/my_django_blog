@@ -1,3 +1,4 @@
+https://tutorial.djangogirls.org/ja/
 
 
 ---------- ---------- ---------- ---------- ---------- ---------- ----------
@@ -5,6 +6,24 @@
 import モジュール     ※モジュールをインポートしているから記述は「モジュール.関数等」
 
 from モジュール import 関数等     ※関数をインポートしているから記述は「関数等」
+
+
+URL ディスパッチャ¶
+https://docs.djangoproject.com/ja/3.0/topics/http/urls/
+
+モデルフィールドリファレンス
+https://docs.djangoproject.com/ja/3.0/ref/models/
+https://docs.djangoproject.com/ja/3.0/ref/models/fields/#field-types
+
+
+テンプレート
+https://docs.djangoproject.com/ja/3.0/ref/templates/
+テンプレート~組み込みタグとフィルタ
+https://docs.djangoproject.com/ja/3.0/ref/templates/builtins/#
+
+
+Djangoのクエリセット
+https://docs.djangoproject.com/ja/3.0/ref/models/querysets/
 
 
 ---------- ---------- ---------- ---------- ---------- ---------- ----------
@@ -42,6 +61,20 @@ pip install -r requirements.txt
 --------- requirements.txt の中身 --------- 
 Django~=2.2.4
 --------- --------- --------- 
+
+
+python -m django --version
+
+
+ Django が Python から見れるか確認をするには、
+ シェルで python とタイプして、 Python プロンプトから
+ Django をインポートします:
+
+>>> import django
+>>> print(django.get_version())
+3.0
+
+
 
 
 # djangoがインストールできたら、プロジェクトを作る。
@@ -205,7 +238,6 @@ git push -u origin master
 pip3.6 install --user pythonanywhere
 
 
-
 pa_autoconfigure_django.py --python=3.7 https://github.com/YnYnHnFn/my_django_blog.git
 
 pa_autoconfigure_django.py --nuke --python=3.7 https://github.com/YnYnHnFn/my_django_blog.git
@@ -218,16 +250,6 @@ pa_autoconfigure_django.py --nuke --python=3.7 https://github.com/YnYnHnFn/my_dj
 　・manage.py migrateコマンドを使ってPythonAnywhere上のデータベースをセットアップする
 　・静的ファイルの設定（これについては後で学習します）
 　・APIを通じてPythonAnywhereがあなたのWebアプリケーションを提供するように設定する
-
-
-# PythonAnywhereのコンソールで仮想環境に入る（ようなもの）
-※ workon :仮想環境の起動 [myenv/bin/activateコマンドと同じようなもの]
-※ collectstatic :静的ファイルの更新
-
-$ workon ynynhnfn.pythonanywhere.com
-
-(ynynhnfn.pythonanywhere.com)$ python manage.py collectstatic
-
 
 
 ---------- ---------- ---------- ---------- ---------- ---------- ----------
@@ -308,6 +330,18 @@ $ cd ~/ynynhnfn.pythonanywhere.com
 
 $ git pull
 
+
+
+
+# PythonAnywhereのコンソールで仮想環境に入る（ようなもの）
+※ workon :仮想環境の起動 [myenv/bin/activateコマンドと同じようなもの]
+※ collectstatic :静的ファイルの更新
+
+$ workon ynynhnfn.pythonanywhere.com
+
+(ynynhnfn.pythonanywhere.com)$ python manage.py collectstatic
+
+これやると、トップのstaticの下にblog下のstaticがコピーされるっポイわ。
 
 
 
